@@ -97,4 +97,40 @@ function display_class(){
 	    </div>
 	  </div>';
 }
+
+function update_classname($name , $id){
+	$connection = db_connect();
+
+	$query = "UPDATE `class` SET `class_group` = '$name' WHERE `class`.`id` = '$id'";
+	$result = mysqli_query($connection,$query); 
+
+	if($result){ //check if query ran
+
+	}else{	
+
+	}
+	db_close($connection);
+
+}
+
+
+function delete_class($id){
+	$connection = db_connect();
+
+	$query = "DELETE FROM `class` WHERE `class`.`id` = '$id'";
+	
+	$result = mysqli_query($connection,$query); 
+
+	if($result){ //check if query ran
+
+	}else{	
+
+	}
+	db_close($connection);
+
+}
+
+
 ?>
+
+
