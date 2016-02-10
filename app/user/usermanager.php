@@ -35,7 +35,7 @@ function login_user($email, $pass) {
 
 			add_success($resultset['firstname']." ".$resultset['lastname']." Logged in Successfully");	
 			db_close($connection);
-			header('location: dashboard/home.html');	
+			header('location: dashboard/home.php');	
 			die();
 			
 		}else{

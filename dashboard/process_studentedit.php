@@ -8,12 +8,12 @@ if (isset($_POST['student_fname']) && isset($_POST['student_lname']) && isset($_
 			if(isset($_POST['student_id']) && trim($_POST['student_id']) !== ''){ //if student id is set and not empty
 				update_studentname($_POST['student_fname'] , $_POST['student_lname'], $_POST['student_id']);
 				add_success("Name Updated");
-				header('location: blank.php');	
+				header('location: classview.php');	
 				die();
 			}
 		}
 		add_error("No Comprende".$_POST['student_fname']." ".$_POST['student_lname']." ".$_POST['student_id']);
-		header('location: blank.php');	
+		header('location: classview.php');	
 		die();
 	}
 }

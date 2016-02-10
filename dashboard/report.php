@@ -1,8 +1,17 @@
 <?PHP 
-include "../app/inc.php"; 
-include "../app/class/classmanager.php"; 
-include "../app/student/studentmanager.php"; 
-?>
+include "../app/inc.php";
+include "../app/report/reportmanager.php";
+
+$student_id = 9;
+$game_type = 'memory';
+$difficulty = 'easy';
+
+$test = get_last5_results($student_id, $game_type, $difficulty);
+$class_id = 14;
+$year = 2016;
+
+
+?> 
 <!DOCTYPE html>
 <html>
   <head>
@@ -22,6 +31,18 @@ include "../app/student/studentmanager.php";
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="plugins/iCheck/flat/blue.css">
+    <!-- Morris chart -->
+    <link rel="stylesheet" href="plugins/morris/morris.css">
+    <!-- jvectormap -->
+    <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+    <!-- Date Picker -->
+    <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -132,7 +153,7 @@ include "../app/student/studentmanager.php";
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Create Class
+            Blank
             <small>start here.</small>
           </h1>
           <ol class="breadcrumb">
@@ -143,94 +164,104 @@ include "../app/student/studentmanager.php";
 
         <!-- Main content -->
         <section class="content">
-		
-		<div class="row">
-            <div class="col-md-12"><?php printmessages(); ?></div>
-		</div>
-          <div class="row">  
-            <div class="col-md-6">
-              <div class="box box-warning box-solid collapsed-box">
-                <div class="box-header with-border">
-                  <h3 class="box-title">1st class</h3>
-                  <div class="box-tools pull-right">
-				  <button class="btn btn-box-tool"><i class="fa fa-fw fa-edit"></i></button>
-				  <button class="btn btn-box-tool"><i class="fa fa-fw fa-close"></i></button>
-                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-                  </div><!-- /.box-tools -->
-                </div><!-- /.box-header -->
-                <div class="box-body no-padding" style="display: none;">
-                  <table class="table table-striped">
-                    <tbody><tr>
-                      <th style="width: 10px">#</th>
-                      <th>Name</th>
-                      <th>Code</th>
-					  <th style="width: 40px" >Edit</th>
-					  <th style="width: 40px" >Delete</th>
-                     
-                    </tr>
-                    <tr>
-                      <td>1.</td>
-                      <td>Update software</td>
-                      <td>
-                        1234
-                      </td>
-                      <td>
-					  <a data-toggle="modal" data-target="#editClass" href="#"><button class="btn btn-block btn-warning"><i class="fa fa-fw fa-edit"></i></button></a>
-					  </td>
-					  
-					  <td>
-					  <button class="btn btn-block btn-danger"><i class="fa fa-fw fa-close"></i></button>
-					  </td>
-                    </tr>
-                    <tr>
-                      <td>2.</td>
-                      <td>Clean database</td>
-                      <td>
-                        1234
-                      </td>
-                      <td>
-					  <button class="btn btn-block btn-warning"><i class="fa fa-fw fa-edit"></i></button>
-					  </td>
-					  
-					  <td>
-					  <button class="btn btn-block btn-danger"><i class="fa fa-fw fa-close"></i></button>
-					  </td>
-                    </tr>
-                    <tr>
-                      <td>3.</td>
-                      <td>Cron job running</td>
-                      <td>
-                        1234
-                      </td>
-                      <td>
-					  <button class="btn btn-block btn-warning"><i class="fa fa-fw fa-edit"></i></button>
-					  </td>
-					  
-					  <td>
-					  <button class="btn btn-block btn-danger"><i class="fa fa-fw fa-close"></i></button>
-					  </td>
-                    </tr>
-                    <tr>
-                      <td>4.</td>
-                      <td>Fix and squish bugs</td>
-                      <td>
-                        1234
-                      </td>
-                      <td>
-					  <button class="btn btn-block btn-warning"><i class="fa fa-fw fa-edit"></i></button>
-					  </td>
-					  
-					  <td>
-					  <button class="btn btn-block btn-danger"><i class="fa fa-fw fa-close"></i></button>
-					  </td>
-                    </tr>
-                  </tbody></table>
-                </div><!-- /.box-body -->
-              </div><!-- /.box -->
-            </div>
-			
+          <div class="row">
+            <div class="col-md-12"><?php printmessages(); ?></br></div>
           </div>
-		  
+          <div class="row">
+          <div class="col-lg-5 connectedSortable ui-sortable">
+            
+
+            <!-- solid sales graph -->
+              <div class="box box-solid bg-teal-gradient">
+                <div class="box-header">
+                  <i class="fa fa-th"></i>
+                  <h3 class="box-title">Sales Graph</h3>
+                  <div class="box-tools pull-right">
+                    <button class="btn bg-teal btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    <button class="btn bg-teal btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                <div class="box-body border-radius-none">
+                  <div class="chart" id="line-chart" style="height: 250px;"></div>
+                </div><!-- /.box-body -->
+                <div class="box-footer no-border">
+                  <div class="row">
+                    <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
+                      <input type="text" class="knob" data-readonly="true" value="<?PHP echo get_average_score($student_id, $game_type, $difficulty); ?>" data-width="60" data-height="60" data-fgColor="#39CCCC">
+                      <div class="knob-label">Easy</div>
+                    </div><!-- ./col -->
+                    <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
+                      <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60" data-fgColor="#39CCCC">
+                      <div class="knob-label">Online</div>
+                    </div><!-- ./col -->
+                    <div class="col-xs-4 text-center">
+                      <input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60" data-fgColor="#39CCCC">
+                      <div class="knob-label">In-Store</div>
+                    </div><!-- ./col -->
+                  </div><!-- /.row -->
+                </div><!-- /.box-footer -->
+              </div><!-- /.box -->
+
+
+
+
+          </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-12"><?php 
+            foreach($test as $value){
+              echo $value['score']." ".$value['date']."</br>";
+            }
+
+             ?></div>
+          </div>
+          <div class = "row">
+          <div class = "col-md-12">
+
+          <?PHP echo get_class_average($class_id, $game_type, $difficulty); ?>
+
+        </div>
+      </div>
+
+<div class = "row">
+          <div class = "col-md-12">
+
+          <?PHP echo get_students_highest_Score($student_id, $game_type, $difficulty); ?>
+
+        </div>
+      </div>
+
+
+<div class = "row">
+          <div class = "col-md-12">
+
+          <?PHP $score = get_class_highest_Score($class_id, $game_type, $difficulty); 
+          echo $score['score']." ".$score['first_name']." ".$score['last_name'];
+
+
+
+
+          ?>
+
+        </div>
+      </div>
+
+
+      <div class = "row">
+          <div class = "col-md-12">
+
+          <?PHP echo compare_class_average($class_id, $game_type, $difficulty, $year); ?>
+
+        </div>
+      </div>
+
+
+
+
+          <div class="row">
+            <div class="col-md-12"><?php all_dump(); ?></div>
+          </div>
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 
@@ -244,38 +275,60 @@ include "../app/student/studentmanager.php";
       
     </div><!-- ./wrapper -->
 
-<!-- Modal -->
-<div class="modal fade" id="editClass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal modal-warning">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-          <h4 class="modal-title">Modal Warning</h4>
-        </div>
-        <div class="modal-body">
-          <p>One fine body…</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-outline">Save changes</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-</div>
+
 
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
-    <!-- SlimScroll -->
-    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- Morris.js charts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="plugins/morris/morris.min.js"></script>
     <!-- FastClick -->
     <script src="plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
+
+    <script src="plugins/knob/jquery.knob.js"></script>
+
+    <script type="text/javascript">
+      $(function() {
+        "use strict";
+        var line = new Morris.Line({
+          element: 'line-chart',
+          resize: true,
+          data: [
+            {y: '2011 Q1', item1: 2666},
+            {y: '2011 Q2', item1: 2778},
+            {y: '2011 Q3', item1: 4912},
+            {y: '2011 Q4', item1: 3767},
+            {y: '2012 Q1', item1: 6810},
+            {y: '2012 Q2', item1: 5670},
+            {y: '2012 Q3', item1: 4820},
+            {y: '2012 Q4', item1: 15073},
+            {y: '2013 Q1', item1: 10687},
+            {y: '2013 Q2', item1: 8432}
+          ],
+          xkey: 'y',
+          ykeys: ['item1'],
+          labels: ['Item 1'],
+          lineColors: ['#efefef'],
+          lineWidth: 2,
+          hideHover: 'auto',
+          gridTextColor: "#fff",
+          gridStrokeWidth: 0.4,
+          pointSize: 4,
+          pointStrokeColors: ["#efefef"],
+          gridLineColor: "#efefef",
+          gridTextFamily: "Open Sans",
+          gridTextSize: 10
+        });
+
+        $(".knob").knob();
+        
+      });
+</script>
   </body>
 </html>

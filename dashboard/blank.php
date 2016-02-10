@@ -1,99 +1,6 @@
 <?PHP 
-include "../app/inc.php"; 
-include "../app/class/classmanager.php"; 
-include "../app/student/studentmanager.php"; 
-
-$array = get_all_students();
-
-function print_table($array){
-	$new_class_id = 0;
-	$old_class_id = 0;
-	
-	$i=1;
-	
-	for($j=0; $j < count($array); $j++){
-		$new_class_id = $array[$j][1];
-    $student_no = $j+1;
-		
-		if($new_class_id != $old_class_id){
-			
-			echo "<div class=\"col-md-6\">
-              <div class=\"box box-warning box-solid collapsed-box\">
-                <div class=\"box-header with-border\">
-                  <h3 class=\"box-title\">".$array[$j][7]."</h3>
-                  <div class=\"box-tools pull-right\">
-				  <button class_id =\"".$array[$j][1]."\" data-toggle=\"modal\" data-target=\"#editClass\" class=\"btn btn-box-tool classNameEdit\"><i class=\"fa fa-fw fa-edit\"></i></button>
-				  <button class_id =\"".$array[$j][1]."\" data-toggle=\"modal\" data-target=\"#deleteClass\" class=\"btn btn-box-tool classNameDelete\"><i class=\"fa fa-fw fa-close\"></i></button>
-                    <button class=\"btn btn-box-tool\" data-widget=\"collapse\"><i class=\"fa fa-plus\"></i></button>
-                  </div><!-- /.box-tools -->
-                </div><!-- /.box-header -->
-                <div class=\"box-body no-padding\" style=\"display: none;\">
-                  <table class=\"table table-striped\">
-                    <tbody><tr>
-                      <th style=\"width: 10px\">#</th>
-                      <th>Name</th>
-                      <th>Code</th>
-					  <th style=\"width: 40px\" >Edit</th>
-					  <th style=\"width: 40px\" >Delete</th>
-                     
-                    </tr>";
-			
-			//echo "<tr><td></td><td>table top</td><td></td><td></td><td></td></tr>";
-			
-			
-			
-			$old_class_id = $new_class_id;
-		}
-		
-		echo "<tr>
-		  <td>".$student_no."</td>
-		  <td>".$array[$j][3]." ".$array[$j][4]."</td>
-		  <td>".$array[$j][2]."</td>
-		  <td> <button student_id =\"".$array[$j][0]."\" data-toggle=\"modal\" data-target=\"#editStudent\" class=\"btn btn-block btn-warning studentNameEdit\"><i class=\"fa fa-fw fa-edit\"></i></button></td>					  
-		  <td> <button student_id =\"".$array[$j][0]."\" data-toggle=\"modal\" data-target=\"#deleteStudent\" class=\"btn btn-block btn-danger studentNameDelete\"><i class=\"fa fa-fw fa-close\"></i></button></td>
-		</tr>";
-		
-		if(array_key_exists($j+1,$array)){
-			if($old_class_id != $array[$j+1][1]){
-				echo "</tbody></table>
-                </div><!-- /.box-body -->
-              </div><!-- /.box -->
-            </div>";
-			
-			//echo "<tr><td></td><td>table bottom</td><td></td><td></td><td></td></tr>";
-			}			
-		}else{
-			echo "</tbody></table>
-                </div><!-- /.box-body -->
-              </div><!-- /.box -->
-            </div>";			
-		}
-		
-				
-	}
-	
-	/*
-	foreach($array as $value){	
-		$new_class_id = $value[1];
-		if($new_class_id != $old_class_id){
-			echo "<tr><td></td><td>table top</td><td></td><td></td><td></td></tr>";
-			$old_class_id = $new_class_id;
-		}
-		
-		echo "<tr>
-		  <td>$i</td>
-		  <td>$value[3] $value[4]</td>
-		  <td>$value[2]</td>
-		  <td>$value[7]</td>					  
-		  <td></td>
-		</tr>";	
-		$i++;
-		
-		
-	}*/
-}
-
-?>
+include "../app/inc.php";
+?> 
 <!DOCTYPE html>
 <html>
   <head>
@@ -223,7 +130,7 @@ function print_table($array){
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Create Class
+            Blank
             <small>start here.</small>
           </h1>
           <ol class="breadcrumb">
@@ -234,100 +141,16 @@ function print_table($array){
 
         <!-- Main content -->
         <section class="content">
-		
-		<div class="row">
+          <div class="row">
             <div class="col-md-12"><?php printmessages(); ?></div>
-		</div>
-          <div class="row">  
-            <div class="col-md-6">
-              <div class="box box-warning box-solid collapsed-box">
-                <div class="box-header with-border">
-                  <h3 class="box-title">1st class</h3>
-                  <div class="box-tools pull-right">
-				  <button data-toggle="modal" data-target="#editClass" class="btn btn-box-tool"><i class="fa fa-fw fa-edit"></i></button>
-				  <button data-toggle="modal" data-target="#deleteClass"class="btn btn-box-tool"><i class="fa fa-fw fa-close"></i></button>
-                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-                  </div><!-- /.box-tools -->
-                </div><!-- /.box-header -->
-                <div class="box-body no-padding" style="display: none;">
-                  <table class="table table-striped">
-                    <tbody><tr>
-                      <th style="width: 10px">#</th>
-                      <th>Name</th>
-                      <th>Code</th>
-					  <th style="width: 40px" >Edit</th>
-					  <th style="width: 40px" >Delete</th>
-                     
-                    </tr>
-                    <tr>
-                      <td>1.</td>
-                      <td>Update software</td>
-                      <td>
-                        1234
-                      </td>
-                      <td>
-					  <button data-toggle="modal" data-target="#editClass" class="btn btn-block btn-warning"><i class="fa fa-fw fa-edit"></i></button>
-					  </td>
-					
-					  <td>
-					  <button data-toggle="modal" data-target="#deleteClass"class="btn btn-block btn-danger"><i class="fa fa-fw fa-close"></i></button>
-					  </td>
-                    </tr>
-                    <tr>
-                      <td>2.</td>
-                      <td>Clean database</td>
-                      <td>
-                        1234
-                      </td>
-                      <td>
-					  <button class="btn btn-block btn-warning"><i class="fa fa-fw fa-edit"></i></button>
-					  </td>
-					  
-					  <td>
-					  <button class="btn btn-block btn-danger"><i class="fa fa-fw fa-close"></i></button>
-					  </td>
-                    </tr>
-                    <tr>
-                      <td>3.</td>
-                      <td>Cron job running</td>
-                      <td>
-                        1234
-                      </td>
-                      <td>
-					  <button class="btn btn-block btn-warning"><i class="fa fa-fw fa-edit"></i></button>
-					  </td>
-					  
-					  <td>
-					  <button class="btn btn-block btn-danger"><i class="fa fa-fw fa-close"></i></button>
-					  </td>
-                    </tr>
-                    <tr>
-                      <td>4.</td>
-                      <td>Fix and squish bugs</td>
-                      <td>
-                        1234
-                      </td>
-                      <td>
-					  <button class="btn btn-block btn-warning"><i class="fa fa-fw fa-edit"></i></button>
-					  </td>
-					  
-					  <td>
-					  <button class="btn btn-block btn-danger"><i class="fa fa-fw fa-close"></i></button>
-					  </td>
-                    </tr>
-                  </tbody></table>
-                </div><!-- /.box-body -->
-              </div><!-- /.box -->
-            </div>
-			<?PHP print_table($array);?>			
-            
           </div>
-		  <div class="row">
-            <div class="col-md-12"><?php echo "<pre>"; var_dump($array); echo "</pre>"; ?></div>
-		</div>
-		<div class="row">
+          <div class="row">
+
+
+          </div>
+          <div class="row">
             <div class="col-md-12"><?php all_dump(); ?></div>
-		</div>
+          </div>
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 
@@ -340,130 +163,6 @@ function print_table($array){
 
       
     </div><!-- ./wrapper -->
-
-<div class="modal modal-warning" id="editClass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                 <form id="classEdit" action="process_classedit.php" method="post">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Edit Class Name</h4>
-                  </div>
-                 
-                  <div class="modal-body">
-                    <div class="form-group">
-          <input type="text" class="form-control" name="class_name" placeholder="Edit Class name here...">
-          <input type="hidden" name="class_id" id="hidden_class_name_id" value="">
-        </div>
-                  </div>
-                 
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                    <button type="submit"  class="btn btn-outline">Save changes</button>
-                  </div>
-                   </form>
-                </div><!-- /.modal-content -->
-              </div><!-- /.modal-dialog -->
-            </div>
-
-
-</div>
-<!-- modal for delete class -->
-<div class="modal modal-danger" id="deleteClass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                 <form id="classDelete" action="process_classdelete.php" method="post">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Delete Class</h4>
-                  </div>
-                 
-                  <div class="modal-body">
-                    <div class="form-group">
-                      <p>Warning - This is will delete all students in this class.</br>
-                        Are you sure? </p>
-          <input type="hidden" name="class_id" id="hidden_class_delete_id" value="">
-        </div>
-                  </div>
-                 
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancel</button>
-                    <button type="submit"  class="btn btn-outline">Yes Im sure</button>
-                  </div>
-                   </form>
-                </div><!-- /.modal-content -->
-              </div><!-- /.modal-dialog -->
-            </div>
-
-
-</div>
-
-
-<!--modal for edit student -->
-<div class="modal modal-warning" id="editStudent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                 <form id="classStudent" action="process_studentedit.php" method="post">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Edit Student Name</h4>
-                  </div>
-                 
-                  <div class="modal-body">
-                    <div class="form-group">
-          <input type="text" class="form-control" name="student_fname" placeholder="Edit Students Firstname here...">
-          <input type="hidden" name="student_id" id="hidden_student_name_id" value="">
-        </div>
-          <div class="form-group">
-          <input type="text" class="form-control" name="student_lname" placeholder="Edit Students Lastname here...">
-        </div>
-                  </div>
-                 
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                    <button type="submit"  class="btn btn-outline">Save changes</button>
-                  </div>
-                   </form>
-                </div><!-- /.modal-content -->
-              </div><!-- /.modal-dialog -->
-            </div>
-
-
-</div>
-
-
-</div>
-<!-- modal for delete student -->
-<div class="modal modal-danger" id="deleteStudent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                 <form id="studentDelete" action="process_studentdelete.php" method="post">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Delete Student</h4>
-                  </div>
-                 
-                  <div class="modal-body">
-                    <div class="form-group">
-                      <p>Warning - This will permanetly remove this student from this class.</br>
-                        Are you sure? </p>
-          <input type="hidden" name="student_id" id="hidden_student_delete_id" value="">
-        </div>
-                  </div>
-                 
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancel</button>
-                    <button type="submit"  class="btn btn-outline">Yes Im sure</button>
-                  </div>
-                   </form>
-                </div><!-- /.modal-content -->
-              </div><!-- /.modal-dialog -->
-            </div>
-
-
-</div>
-
-
 
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
@@ -482,33 +181,7 @@ function print_table($array){
 
     <script type="text/javascript">
     $(document).ready(function() {
-        $('.classNameEdit').click(function() {
-          //alert($(this).attr("class_id"));
-          var id = $(this).attr("class_id");
-          $('#hidden_class_name_id').attr('value', id);
-        });
-
-    $('.classNameDelete').click(function() {
-          //alert($(this).attr("class_id"));
-          var id = $(this).attr("class_id");
-          $('#hidden_class_delete_id').attr('value', id);
-        });
-
-
-    $('.studentNameEdit').click(function() {
-          //alert($(this).attr("class_id"));
-          var id = $(this).attr("student_id");
-          $('#hidden_student_name_id').attr('value', id);
-        });
-
-    $('.studentNameDelete').click(function() {
-          //alert($(this).attr("class_id"));
-          var id = $(this).attr("student_id");
-          $('#hidden_student_delete_id').attr('value', id);
-        });
-
-
-
+        
     });
 </script>
   </body>

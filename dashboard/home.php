@@ -1,4 +1,6 @@
-
+<?PHP 
+include "../app/inc.php";
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -95,7 +97,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="classcreate.php"><i class="fa fa-circle-o"></i> Create </a></li>
-                <li><a href="index2.html"><i class="fa fa-circle-o"></i> View </a></li>
+                <li><a href="classview.php"><i class="fa fa-circle-o"></i> View </a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -140,9 +142,13 @@
 
         <!-- Main content -->
         <section class="content">
+          <div class="row">
+            <div class="col-md-12"><?php printmessages(); ?></div>
+          </div>
 
-          
-
+          <div class="row">
+            <div class="col-md-12"><?php all_dump(); ?></div>
+          </div>
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 

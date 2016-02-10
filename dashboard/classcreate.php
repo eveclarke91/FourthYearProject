@@ -90,7 +90,7 @@ include "../app/student/studentmanager.php";
             </div>
           </div>
           
-          <!-- sidebar menu: : style can be found in sidebar.less -->
+         <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li class="treeview">
@@ -99,7 +99,7 @@ include "../app/student/studentmanager.php";
               </a>
               <ul class="treeview-menu">
                 <li><a href="classcreate.php"><i class="fa fa-circle-o"></i> Create </a></li>
-                <li><a href="index2.html"><i class="fa fa-circle-o"></i> View </a></li>
+                <li><a href="classview.php"><i class="fa fa-circle-o"></i> View </a></li>
               </ul>
             </li>
             <li class="treeview">
