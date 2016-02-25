@@ -32,6 +32,7 @@ function print_table($array){
                       <th style=\"width: 10px\">#</th>
                       <th>Name</th>
                       <th>Code</th>
+            <th style=\"width: 40px\" >Report</th>          
 					  <th style=\"width: 40px\" >Edit</th>
 					  <th style=\"width: 40px\" >Delete</th>
                      
@@ -48,6 +49,7 @@ function print_table($array){
 		  <td>".$student_no."</td>
 		  <td>".$array[$j][3]." ".$array[$j][4]."</td>
 		  <td>".$array[$j][2]."</td>
+      <td> <a href=\"studentview.php?id=".$array[$j][0]."\" class=\"btn btn-block btn-success \"><i class=\"fa fa-fw fa-bar-chart-o \"></i></a></td>
 		  <td> <button student_id =\"".$array[$j][0]."\" data-toggle=\"modal\" data-target=\"#editStudent\" class=\"btn btn-block btn-warning studentNameEdit\"><i class=\"fa fa-fw fa-edit\"></i></button></td>					  
 		  <td> <button student_id =\"".$array[$j][0]."\" data-toggle=\"modal\" data-target=\"#deleteStudent\" class=\"btn btn-block btn-danger studentNameDelete\"><i class=\"fa fa-fw fa-close\"></i></button></td>
 		</tr>";

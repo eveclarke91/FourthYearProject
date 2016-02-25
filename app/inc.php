@@ -7,6 +7,7 @@ function all_dump(){
 	echo "<pre>";
 	var_dump($_SESSION);
 	var_dump($_REQUEST);
+	print_r($_GET);
 	print_r($_POST);
 	echo "</pre>";
 	

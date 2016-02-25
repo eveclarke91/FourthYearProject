@@ -12,8 +12,14 @@ function get_average_score($student_id, $game_type, $difficulty){
     	$sum += $row['score'];
      }
 
-     $average = $sum / $numrows;
-     return $average;
+     
+    if($numrows > 0){
+        $average = $sum / $numrows;
+        $average = number_format($average, 1);
+        return $average;
+    }else{
+        return "0";
+    }
       //add_success("Average Returned");
 
 	}else{
@@ -37,23 +43,45 @@ function get_class_average($class_id, $game_type, $difficulty){
 
         }
 
-        $average = $sum / $numrows;
-        return $average;
+        if($numrows > 0){
+            $average = $sum / $numrows;
+            $average = number_format($average, 1);
+            return $average;
+        }else{
+            return "0";
+        }
 
     }else{
         add_error("Error in Average class score SQL");
     }
     db_close($connection);
 }
-
-
-
-
-
-//Get the last fivve results for a game and a difficulty type
-// loop through each row, make an array that has the date and score and put that into last5results array.
-
-
+function get_student_name($student_id){
+    $connection = db_connect();
+    $query = "SELECT first_name, last_name FROM `student` WHERE `id` = '$student_id'";
+    $result = mysqli_query($connection, $query);
+    if($result){
+        $row = mysqli_fetch_assoc($result);
+        $name = $row['first_name']." ".$row['last_name'];
+        return $name;
+    }else{
+        add_error("Error in Getting Name");
+    }
+    db_close($connection);
+}
+function get_class_id($student_id){
+    $connection = db_connect();
+    $query = "SELECT `class_id` FROM `student` WHERE `id` = '$student_id'";
+    $result = mysqli_query($connection, $query);
+    if($result){
+        $row = mysqli_fetch_assoc($result);
+        $class_id = $row['class_id'];
+        return $class_id;
+    }else{
+        add_error("Error in Getting Class ID");
+    }
+    db_close($connection);
+}
 
 function get_last5_results($student_id, $game_type, $difficulty){
     $connection = db_connect();
@@ -62,10 +90,20 @@ function get_last5_results($student_id, $game_type, $difficulty){
     $last_5_results = array();
     if($result){
 
-    while($row = mysqli_fetch_assoc($result)){
-        $last_5_results[] = $row;
-    }
+        $numrows = mysqli_num_rows($result);
+        $difference  = 5 - $numrows; 
+
+        while($row = mysqli_fetch_assoc($result)){
+            $last_5_results[] = $row;
+        }
+        for($i = 0; $i<$difference; $i++){
+            $date = date("Y-m-d");
+            $last_5_results[] = array("date" => $date, "score" => 0);
+        } 
+
+       //$last_5_results = array_reverse($last_5_results);
     return $last_5_results;
+
 
 
     }else{
@@ -74,11 +112,26 @@ function get_last5_results($student_id, $game_type, $difficulty){
     db_close($connection);
 }
 
+function get_most_played($student_id){
+    $connection = db_connect();
+    $query = "SELECT `game_name`, difficulty, COUNT(*) `Count` FROM result where student_id = '$student_id' GROUP BY `game_name`, difficulty";
+    $result = mysqli_query($connection, $query);
+    $most_played = array();
+    if($result){
+        while($row = mysqli_fetch_assoc($result)){
+            $most_played[] = $row;
+        }
+        return $most_played;
+    }else{
+        add_error("Error in Most Played SQL");
+    }
+    db_close($connection);
 
+}
 
 function get_students_highest_Score($student_id, $game_type, $difficulty){
     $connection = db_connect();
-    $query = "SELECT score FROM result WHERE student_id = '$student_id' AND game_name = '$game_type' AND difficulty = '$difficulty' ORDER BY student_id DESC LIMIT 1";
+    $query = "SELECT score FROM result WHERE student_id = '$student_id' AND game_name = '$game_type' AND difficulty = '$difficulty' ORDER BY score DESC LIMIT 1";
     $result = mysqli_query($connection, $query);
     if($result){
         $high_score = mysqli_fetch_assoc($result);

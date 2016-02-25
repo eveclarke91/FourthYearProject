@@ -300,20 +300,15 @@ $year = 2016;
           element: 'line-chart',
           resize: true,
           data: [
-            {y: '2011 Q1', item1: 2666},
-            {y: '2011 Q2', item1: 2778},
-            {y: '2011 Q3', item1: 4912},
-            {y: '2011 Q4', item1: 3767},
-            {y: '2012 Q1', item1: 6810},
-            {y: '2012 Q2', item1: 5670},
-            {y: '2012 Q3', item1: 4820},
-            {y: '2012 Q4', item1: 15073},
-            {y: '2013 Q1', item1: 10687},
-            {y: '2013 Q2', item1: 8432}
+            {m: '2012-02-25', score: 12},
+            {m: '2012-02-24', score: 13},
+            {m: '2012-02-23', score: 16},
+            {m: '2012-02-22', score: 14},
+            {m: '2012-02-21', score: 15}
           ],
-          xkey: 'y',
-          ykeys: ['item1'],
-          labels: ['Item 1'],
+          xkey: 'm',
+          ykeys: ['score'],
+          labels: ['Score'],
           lineColors: ['#efefef'],
           lineWidth: 2,
           hideHover: 'auto',
@@ -325,8 +320,6 @@ $year = 2016;
           gridTextFamily: "Open Sans",
           gridTextSize: 10
         });
-
-        $(".knob").knob();
         
       });
 </script>
