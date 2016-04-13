@@ -17,6 +17,7 @@ function get_all_students(){
 	$teacherid = $_SESSION['id'];	
 	$connection = db_connect(); //connect to database	
 	$query = "SELECT * FROM student INNER JOIN class ON student.class_id = class.id WHERE class.teacher_id = '$teacherid'  ORDER BY student.class_id";
+	
 	$result = mysqli_query($connection,$query); //perform query
 	if($result){ //check if query ran
 	

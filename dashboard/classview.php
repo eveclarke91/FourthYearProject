@@ -21,9 +21,10 @@ function print_table($array){
                 <div class=\"box-header with-border\">
                   <h3 class=\"box-title\">".$array[$j][7]."</h3>
                   <div class=\"box-tools pull-right\">
-				  <button class_id =\"".$array[$j][1]."\" data-toggle=\"modal\" data-target=\"#editClass\" class=\"btn btn-box-tool classNameEdit\"><i class=\"fa fa-fw fa-edit\"></i></button>
-				  <button class_id =\"".$array[$j][1]."\" data-toggle=\"modal\" data-target=\"#deleteClass\" class=\"btn btn-box-tool classNameDelete\"><i class=\"fa fa-fw fa-close\"></i></button>
-                    <button class=\"btn btn-box-tool\" data-widget=\"collapse\"><i class=\"fa fa-plus\"></i></button>
+          <a href='classreportview.php?id=".$array[$j][1]."'><button class_id =\"".$array[$j][1]."\" data-toggle=\"modal\" data-target=\"#editClass\" class=\"btn btn-box-tool classNameEdit\"><i class=\"fa fa-fw fa-bar-chart-o\"></i> Report</button></a>
+				  <button class_id =\"".$array[$j][1]."\" data-toggle=\"modal\" data-target=\"#editClass\" class=\"btn btn-box-tool classNameEdit\"><i class=\"fa fa-fw fa-edit\"></i> Edit</button>
+				  <button class_id =\"".$array[$j][1]."\" data-toggle=\"modal\" data-target=\"#deleteClass\" class=\"btn btn-box-tool classNameDelete\"><i class=\"fa fa-fw fa-close\"></i> Delete</button>
+                    <button class=\"btn btn-box-tool\" data-widget=\"collapse\"><i class=\"fa fa-plus\"></i> Expand</button>
                   </div><!-- /.box-tools -->
                 </div><!-- /.box-header -->
                 <div class=\"box-body no-padding\" style=\"display: none;\">
@@ -109,7 +110,7 @@ function print_table($array){
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Home Page</title>
+    <title>View Class</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -151,23 +152,12 @@ function print_table($array){
               <!-- Messages: style can be found in dropdown.less-->
               
               <!-- User Account: style can be found in dropdown.less -->
+              <a href="logout.php" style="padding:15px;" class="btn bg-purple btn-flat">Sign out</a>
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="dist/img/thing.png" class="user-image" alt="User Image">
-                  <span class="hidden-xs">Yvonne Clarke</span>
-                </a>
-                <ul class="dropdown-menu">
-                  
-                  <!-- Menu Footer-->
-                  <li class="user-footer">
-                    <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
-                    </div>
-                    <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                    </div>
-                  </li>
-                </ul>
+                  <span class="hidden-xs"><?PHP echo $_SESSION['firstname']." ".$_SESSION['lastname']?></span>
+                </a>               
               </li>
               
             </ul>
@@ -187,7 +177,7 @@ function print_table($array){
               <img src="dist/img/thing.png" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-              <p>Yvonne Clarke</p>
+              <p><?PHP echo $_SESSION['firstname']." ".$_SESSION['lastname']?></p>
             </div>
           </div>
           
@@ -202,25 +192,7 @@ function print_table($array){
                 <li><a href="classcreate.php"><i class="fa fa-circle-o"></i> Create </a></li>
                 <li><a href="classview.php"><i class="fa fa-circle-o"></i> View </a></li>
               </ul>
-            </li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Student</span> <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="index.html"><i class="fa fa-circle-o"></i> Create </a></li>
-                <li><a href="index2.html"><i class="fa fa-circle-o"></i> View </a></li>
-              </ul>
-            </li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Report</span> <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="index.html"><i class="fa fa-circle-o"></i> View </a></li>
-              </ul>
-            </li>
-            
+            </li>            
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -233,12 +205,11 @@ function print_table($array){
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Create Class
-            <small>start here.</small>
+            View All Classes
+            <small>Click to view all students in each class</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active"><a href="#">Create Class</a></li>
           </ol>
         </section>
 
@@ -250,7 +221,7 @@ function print_table($array){
 		</div>
           <div class="row">  
            
-			<?PHP print_table($array);?>			
+			<?PHP print_table($array);?>
             
           </div>
 		
@@ -259,7 +230,7 @@ function print_table($array){
 
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
-          <b>Version</b> 2.3.0
+          <b>Version</b> 0.01
         </div>
         <strong>Copyright &copy; 2016 Yvonne Clarke 20046687.</strong> All rights reserved.
       </footer>
@@ -403,6 +374,15 @@ function print_table($array){
     <script src="dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
+    <script>
+    $( document ).ready(function() {
+        window.setTimeout(function() {
+            $(".alert-success").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove(); 
+            });
+        }, 2000);
+    });
+    </script>
 
 
 

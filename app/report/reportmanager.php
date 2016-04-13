@@ -28,12 +28,52 @@ function get_average_score($student_id, $game_type, $difficulty){
 	db_close($connection);
 
 }
+function getGrowthRate($student_id, $game_type, $difficulty){
+    $connection = db_connect(); //connect to database       
+    $query = "SELECT avg(score) from result WHERE student_id = '$student_id' and game_name = '$game_type' and difficulty = '$difficulty' and score <= (select max(score) from result where student_id='$student_id')-2";
+    $result = mysqli_query($connection,$query); //perform query
+    if($result){ //check if query ran
+    
+        while($row = mysqli_fetch_assoc($result)) {
+            $rate= $row['avg(score)'];
+        }
+
+        return $rate;
+
+    }else{
+        add_error("Error in growthrate Score SQL");        
+    }
+    db_close($connection);    
+}
+
+function getLowestGame($student_id){
+    $connection = db_connect(); //connect to database       
+    $query = "SELECT avg(score), game_name, difficulty from result WHERE student_id = '$student_id' GROUP BY game_name, difficulty ORDER BY avg(score) LIMIT 1";
+    $result = mysqli_query($connection,$query); //perform query
+    if($result){ //check if query ran
+        $rate = array();
+        while($row = mysqli_fetch_assoc($result)) {
+            $rate['score']= $row['avg(score)'];
+            $rate['name']= $row['game_name'];
+            $rate['difficulty']= $row['difficulty'];
+        }
+        return $rate;
+
+    }else{
+        add_error("Error in growthrate Score SQL");        
+    }
+    db_close($connection);    
+}
+
+
+
 
 //get the average score of a particular game at a particular difficulty of a class
 function get_class_average($class_id, $game_type, $difficulty){
     $connection = db_connect();
     $query = "SELECT score FROM result INNER JOIN student ON result.student_id = student.id WHERE student.class_id = '$class_id' AND result.game_name = '$game_type' AND result.difficulty = '$difficulty'";
     $result = mysqli_query($connection, $query);
+    //add_success($query);
     if($result){
 
         $numrows = mysqli_num_rows($result);
@@ -85,7 +125,8 @@ function get_class_id($student_id){
 
 function get_last5_results($student_id, $game_type, $difficulty){
     $connection = db_connect();
-    $query = "SELECT score, date FROM result WHERE student_id = '$student_id' AND game_name = '$game_type' AND Difficulty = '$difficulty' ORDER BY date DESC LIMIT 5";
+    //$query = "SELECT score, date, @curRow := @curRow + 1 AS row_number FROM result WHERE student_id = '$student_id' AND game_name = '$game_type' AND Difficulty = '$difficulty' ORDER BY date DESC LIMIT 5";
+    $query = "SELECT score, date, @curRow := @curRow + 1 AS row_number FROM result r JOIN (SELECT @curRow := 0) c WHERE student_id = '$student_id' AND game_name = '$game_type' AND Difficulty = '$difficulty' ORDER BY date DESC LIMIT 5";
     $result = mysqli_query($connection, $query);
     $last_5_results = array();
     if($result){
@@ -96,9 +137,9 @@ function get_last5_results($student_id, $game_type, $difficulty){
         while($row = mysqli_fetch_assoc($result)){
             $last_5_results[] = $row;
         }
-        for($i = 0; $i<$difference; $i++){
+        if($numrows == 0){
             $date = date("Y-m-d");
-            $last_5_results[] = array("date" => $date, "score" => 0);
+            $last_5_results[] = array("date" => $date, "score" => 0, "row_number" => 0);
         } 
 
        //$last_5_results = array_reverse($last_5_results);
@@ -185,7 +226,27 @@ function compare_class_average($class_id, $game_type, $difficulty, $year){
     }
      db_close($connection);
 }
+function get_all_students_averages($class_id,$game_type,$game_difficulty){
 
+    $connection = db_connect();
+    $query = "SELECT AVG(score), first_name, last_name, student_id FROM result INNER JOIN student ON result.student_id = student.id WHERE student.class_id = '$class_id' AND result.game_name = '$game_type' AND result.difficulty = '$game_difficulty' GROUP BY student_id ORDER BY AVG(score) DESC";
+    //$query = "SELECT score FROM result INNER JOIN student ON result.student_id = student.id WHERE student.class_id = '$class_id' AND result.game_name = '$game_type' AND result.difficulty = '$difficulty'";
+    
+    $result = mysqli_query($connection, $query);
+    if($result){
+
+        while($row = $result->fetch_array()){
+            $rows[] = $row;
+        }       
+        return $rows;
+
+    }else{
+        add_error("Error in All Student Averages");
+    }
+    db_close($connection);
+
+
+}
 
 
 

@@ -5,9 +5,9 @@ function create_user($email, $firstname, $lastname, $school, $pass){ //create us
 	$query = "INSERT INTO `project`.`teacher` (`id`, `firstname`, `lastname`, `email`, `pass`, `school`) VALUES (NULL, '$firstname', '$lastname', '$email', '$pass', '$school')";
 	$result = mysqli_query($connection,$query); //perform query
 	if($result){ //check if query ran
-		add_success("Teacher Created");//add success message
+		add_success(" Registration Complete ");//add success message
 	}else{
-		add_error("Teacher not created, Error in SQL");		
+		add_error(" Error Creating User ");		
 	}
 	db_close($connection);
 	header('location: index.php');	
@@ -35,7 +35,7 @@ function login_user($email, $pass) {
 
 			add_success($resultset['firstname']." ".$resultset['lastname']." Logged in Successfully");	
 			db_close($connection);
-			header('location: dashboard/home.php');	
+			header('location: dashboard/classview.php');	
 			die();
 			
 		}else{

@@ -21,6 +21,10 @@ if(isset($_POST['difficulty'])){
 
 $the5results = get_last5_results($student_id, $game_type, $difficulty);
 $most_played = get_most_played($student_id);
+$memorygrowthrate = getGrowthRate($student_id, "memory", "easy");
+$spellinggrowthrate = getGrowthRate($student_id, "spelling", "easy");
+$mathsgrowthrate = getGrowthRate($student_id, "maths", "easy");
+$lowestgame = getLowestGame($student_id);
 
 ?>
 <!DOCTYPE html>
@@ -33,12 +37,14 @@ $most_played = get_most_played($student_id);
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap/css/custom.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="plugins/morris/morris.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
@@ -53,8 +59,7 @@ $most_played = get_most_played($student_id);
   <body class="hold-transition skin-blue sidebar-mini">
     <!-- Site wrapper -->
     <div class="wrapper">
-
-      <header class="main-header">
+<header class="main-header">
         <!-- Logo -->
         <a href="index2.html" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -70,23 +75,12 @@ $most_played = get_most_played($student_id);
               <!-- Messages: style can be found in dropdown.less-->
               
               <!-- User Account: style can be found in dropdown.less -->
+              <a href="logout.php" style="padding:15px;" class="btn bg-purple btn-flat">Sign out</a>
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="dist/img/thing.png" class="user-image" alt="User Image">
-                  <span class="hidden-xs">Yvonne Clarke</span>
-                </a>
-                <ul class="dropdown-menu">
-                  
-                  <!-- Menu Footer-->
-                  <li class="user-footer">
-                    <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
-                    </div>
-                    <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                    </div>
-                  </li>
-                </ul>
+                  <span class="hidden-xs"><?PHP echo $_SESSION['firstname']." ".$_SESSION['lastname']?></span>
+                </a>               
               </li>
               
             </ul>
@@ -106,11 +100,11 @@ $most_played = get_most_played($student_id);
               <img src="dist/img/thing.png" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-              <p>Yvonne Clarke</p>
+              <p><?PHP echo $_SESSION['firstname']." ".$_SESSION['lastname']?></p>
             </div>
           </div>
           
-         <!-- sidebar menu: : style can be found in sidebar.less -->
+           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li class="treeview">
@@ -121,25 +115,7 @@ $most_played = get_most_played($student_id);
                 <li><a href="classcreate.php"><i class="fa fa-circle-o"></i> Create </a></li>
                 <li><a href="classview.php"><i class="fa fa-circle-o"></i> View </a></li>
               </ul>
-            </li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Student</span> <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="index.html"><i class="fa fa-circle-o"></i> Create </a></li>
-                <li><a href="index2.html"><i class="fa fa-circle-o"></i> View </a></li>
-              </ul>
-            </li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Report</span> <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="index.html"><i class="fa fa-circle-o"></i> View </a></li>
-              </ul>
-            </li>
-            
+            </li>            
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -156,7 +132,7 @@ $most_played = get_most_played($student_id);
             <small></small>
           </h1>
           <ol class="breadcrumb">
-            <li><a href="home.php"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="classview.php"><i class="fa fa-dashboard"></i> Home</a></li>
           </ol>
         </section>
 
@@ -168,9 +144,63 @@ $most_played = get_most_played($student_id);
             <div class="col-md-12" style="text-align:center;">
             <h1><?PHP echo get_student_name($student_id); ?></h1>
             </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-aqua">
+                <div class="inner">
+                  <h3><?PHP echo $memorygrowthrate; ?></h3>
+                  <p>Memory Growth Rate</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="#" class="small-box-footer" id="gr1" data-content="The growth rate is a calculation taken from the period of growth during the playing of the game. It excludes scores that are similar near the high end of the spectrum. The higher the growth rate the better." rel="popover" data-placement="bottom" data-original-title="Memory Growth" data-trigger="hover">More Info&nbsp;&nbsp;<i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-green">
+                <div class="inner">
+                  <h3><?PHP echo $spellinggrowthrate; ?></h3>
+                  <p>Spelling Growth Rate</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="#" class="small-box-footer" id="gr2" data-content="The growth rate is a calculation taken from the period of growth during the playing of the game. It excludes scores that are similar near the high end of the spectrum. The higher the growth rate the better." rel="popover" data-placement="bottom" data-original-title="Spelling Growth" data-trigger="hover">More Info&nbsp;&nbsp;<i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-yellow">
+                <div class="inner">
+                  <h3><?PHP echo $mathsgrowthrate; ?></h3>
+                  <p>Maths Growth Rate</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="#" class="small-box-footer" id="gr3" data-content="The growth rate is a calculation taken from the period of growth during the playing of the game. It excludes scores that are similar near the high end of the spectrum. The higher the growth rate the better." rel="popover" data-placement="bottom" data-original-title="Maths Growth" data-trigger="hover">More Info&nbsp;&nbsp;<i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-red">
+                <div class="inner">
+                  <h3><?PHP echo ucfirst($lowestgame['name'])."<sup style=\"font-size: 20px\">(".ucfirst($lowestgame['difficulty']).")</sup>"; ?></h3>
+                  <p>Lowest Performing Game</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="#" class="small-box-footer" id="low" data-content="This section takes an average from all the games and asseses which one a student is having the most difficulty with" rel="popover" data-placement="bottom" data-original-title="Lowest Performance" data-trigger="hover">More Info&nbsp;&nbsp;<i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+          </div><!-- /.row -->
 
-
-
+          <div class="row">
             <div class="col-md-12">
 
               <div class="box box-success">
@@ -280,7 +310,7 @@ $most_played = get_most_played($student_id);
           </div>
 
 
-         <?php printReports(); ?>
+         
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 
@@ -312,6 +342,19 @@ $most_played = get_most_played($student_id);
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
     <script src="plugins/knob/jquery.knob.js"></script>
+    <script>
+    $( document ).ready(function() {
+        window.setTimeout(function() {
+            $(".alert-success").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove(); 
+            });
+        }, 2000);
+        $('#gr1').popover();
+        $('#gr2').popover();
+        $('#gr3').popover();
+        $('#low').popover();
+    });
+    </script>
     <!-- page script -->
     <script>
       $(function () {
@@ -491,16 +534,20 @@ $most_played = get_most_played($student_id);
         barChartOptions.datasetFill = false;
         barChart.Bar(barChartData, barChartOptions);
 
-        "use strict";
+        //Line Chart
+
         var line = new Morris.Line({
           element: 'line-chart',
           resize: true,
           data: [
-            {m: '<?PHP echo $the5results[0]['date'] ?>', score: <?PHP echo $the5results[0]['score'] ?>},
-            {m: '<?PHP echo $the5results[1]['date'] ?>', score: <?PHP echo $the5results[1]['score'] ?>},
-            {m: '<?PHP echo $the5results[2]['date'] ?>', score: <?PHP echo $the5results[2]['score'] ?>},
-            {m: '<?PHP echo $the5results[3]['date'] ?>', score: <?PHP echo $the5results[3]['score'] ?>},
-            {m: '<?PHP echo $the5results[4]['date'] ?>', score: <?PHP echo $the5results[4]['score'] ?>}
+          <?PHP 
+          for($i=0; $i<count($the5results); $i++){
+            echo "{m: ".$the5results[$i]['row_number']." , score: ".$the5results[$i]['score']."}";
+            if($i + 1 != count($the5results)){
+              echo ",";
+            }
+          }
+          ?>
           ],
           xkey: 'm',
           ykeys: ['score'],
@@ -508,6 +555,9 @@ $most_played = get_most_played($student_id);
           lineColors: ['#efefef'],
           lineWidth: 2,
           hideHover: 'auto',
+          hoverCallback: function (index, options, content, row) {
+            return "Score: " + row.score;
+          },
           gridTextColor: "#fff",
           gridStrokeWidth: 0.4,
           pointSize: 4,

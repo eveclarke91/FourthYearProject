@@ -130,6 +130,27 @@ function delete_class($id){
 
 }
 
+function get_classname($id){
+	$connection = db_connect();
+
+	$query = "SELECT class_group FROM `class` WHERE id = '$id'";
+	
+	$result = mysqli_query($connection,$query); 
+	$classname;
+
+	if($result){ //check if query ran
+
+		while($row = mysqli_fetch_assoc($result)) {
+            $classname = $row['class_group'];
+        }
+        return $classname;;
+
+	}else{	
+
+	}
+	db_close($connection);
+
+}
 
 ?>
 

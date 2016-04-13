@@ -50,23 +50,12 @@ include "../app/student/studentmanager.php";
               <!-- Messages: style can be found in dropdown.less-->
               
               <!-- User Account: style can be found in dropdown.less -->
+              <a href="logout.php" style="padding:15px;" class="btn bg-purple btn-flat">Sign out</a>
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="dist/img/thing.png" class="user-image" alt="User Image">
-                  <span class="hidden-xs">Yvonne Clarke</span>
-                </a>
-                <ul class="dropdown-menu">
-                  
-                  <!-- Menu Footer-->
-                  <li class="user-footer">
-                    <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
-                    </div>
-                    <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                    </div>
-                  </li>
-                </ul>
+                  <span class="hidden-xs"><?PHP echo $_SESSION['firstname']." ".$_SESSION['lastname']?></span>
+                </a>               
               </li>
               
             </ul>
@@ -86,11 +75,11 @@ include "../app/student/studentmanager.php";
               <img src="dist/img/thing.png" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-              <p>Yvonne Clarke</p>
+              <p><?PHP echo $_SESSION['firstname']." ".$_SESSION['lastname']?></p>
             </div>
           </div>
           
-         <!-- sidebar menu: : style can be found in sidebar.less -->
+           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li class="treeview">
@@ -101,25 +90,7 @@ include "../app/student/studentmanager.php";
                 <li><a href="classcreate.php"><i class="fa fa-circle-o"></i> Create </a></li>
                 <li><a href="classview.php"><i class="fa fa-circle-o"></i> View </a></li>
               </ul>
-            </li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Student</span> <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="index.html"><i class="fa fa-circle-o"></i> Create </a></li>
-                <li><a href="index2.html"><i class="fa fa-circle-o"></i> View </a></li>
-              </ul>
-            </li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Report</span> <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="index.html"><i class="fa fa-circle-o"></i> View </a></li>
-              </ul>
-            </li>
-            
+            </li>            
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -136,7 +107,7 @@ include "../app/student/studentmanager.php";
             <small>start here.</small>
           </h1>
           <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="classview.php"><i class="fa fa-dashboard"></i> Home</a></li>
             <li class="active"><a href="#">Create Class</a></li>
           </ol>
         </section>
@@ -242,5 +213,14 @@ include "../app/student/studentmanager.php";
     <script src="dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
+    <script>
+    $( document ).ready(function() {
+        window.setTimeout(function() {
+            $(".alert-success").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove(); 
+            });
+        }, 2000);
+    });
+    </script>
   </body>
 </html>

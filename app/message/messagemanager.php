@@ -20,7 +20,7 @@ function printmessages(){ //Print error messages
 	$messages = $_SESSION['messages']; // move from session to local 
 	$log_to_file = false; // true will start writing to a file
 	if (!empty($messages)){	 //if messages exist
-		echo '<div class="row">'; //first part of message
+		 //first part of message
 		if(!empty($messages['success'])){ //if success messages exist.
 			foreach ($messages['success'] as $value) {
 				if($log_to_file){
@@ -57,7 +57,7 @@ function printmessages(){ //Print error messages
 						<strong>Warning!</strong> '.$value.'</div>';
 			}
 		}
-		echo '</div>'; //end of message
+		 //end of message
 		clear_messages(); //clear message and start again.
 	}
 }
